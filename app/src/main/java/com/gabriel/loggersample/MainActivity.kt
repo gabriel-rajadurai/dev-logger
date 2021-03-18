@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         val id = "${Build.MANUFACTURER}-${Build.MODEL}"
         DevLog.init(
             id,
-            "$packageName (${Process.myPid()})",
+            "$packageName(${Process.myPid()})",
             "192.168.43.230",
             8080,
             "/log"

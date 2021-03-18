@@ -2,7 +2,6 @@ package com.gabriel.devlogger
 
 import android.util.Log
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
 import io.ktor.http.*
@@ -28,23 +27,10 @@ object DevLog {
                 method = HttpMethod.Get,
                 host = hostUrl,
                 port = port,
-                path = path
+                path = "$path/$userId/$processName"
             )
-
-            sendDeviceName(userId, processName)
         }
 
-    }
-
-    //TODO Find a better approach to register device
-    private suspend fun sendDeviceName(userId: String, processName: String) {
-        val gson = Gson()
-        val deviceInfoJson = JsonObject().apply {
-            addProperty("TYPE", "DEVICE_INFO")
-            addProperty("NAME", userId)
-            addProperty("PROCESS", processName)
-        }
-        webSocketSession?.send(gson.toJson(deviceInfoJson))
     }
 
     fun v(tag: String, message: String) {
