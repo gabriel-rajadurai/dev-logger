@@ -17,9 +17,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val id = "${Build.MANUFACTURER}-${Build.MODEL}-${packageName} (${Process.myPid()})"
+        val id = "${Build.MANUFACTURER}-${Build.MODEL}"
         DevLog.init(
             id,
+            "$packageName (${Process.myPid()})",
             "192.168.43.230",
             8080,
             "/log"

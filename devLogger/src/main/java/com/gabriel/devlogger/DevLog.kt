@@ -1,7 +1,5 @@
 package com.gabriel.devlogger
 
-import android.os.Build
-import android.os.Process
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -21,7 +19,7 @@ object DevLog {
      * Initialize the logging library. This sets up the WebSocketSession
      * The session is established to host [hostUrl]/[path] at port [port]
      */
-    fun init(userId:String, hostUrl: String, port: Int, path: String = "") {
+    fun init(userId: String, processName: String, hostUrl: String, port: Int, path: String = "") {
         CoroutineScope(Dispatchers.IO).launch {
             val client = HttpClient {
                 install(WebSockets)
@@ -33,17 +31,18 @@ object DevLog {
                 path = path
             )
 
-            sendDeviceName(userId)
+            sendDeviceName(userId, processName)
         }
 
     }
 
     //TODO Find a better approach to register device
-    private suspend fun sendDeviceName(userId: String) {
+    private suspend fun sendDeviceName(userId: String, processName: String) {
         val gson = Gson()
         val deviceInfoJson = JsonObject().apply {
             addProperty("TYPE", "DEVICE_INFO")
             addProperty("NAME", userId)
+            addProperty("PROCESS", processName)
         }
         webSocketSession?.send(gson.toJson(deviceInfoJson))
     }
