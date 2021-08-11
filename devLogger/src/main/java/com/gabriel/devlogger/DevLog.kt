@@ -4,15 +4,16 @@ import android.util.Log
 import com.google.gson.Gson
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
-import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.ClosedReceiveChannelException
 import kotlinx.coroutines.launch
 
 object DevLog {
 
     private var webSocketSession: DefaultClientWebSocketSession? = null
+    private const val TAG = "DevLog"
 
     /**
      * Initialize the logging library. This sets up the WebSocketSession
@@ -23,12 +24,21 @@ object DevLog {
             val client = HttpClient {
                 install(WebSockets)
             }
-            webSocketSession = client.webSocketSession(
-                method = HttpMethod.Get,
+            client.ws(
                 host = hostUrl,
                 port = port,
                 path = "$path/$userId/$processName"
-            )
+            ) {
+                webSocketSession = this
+                try {
+                    while (true) {
+                        incoming.receive()
+                    }
+                } catch (e: ClosedReceiveChannelException) {
+                    webSocketSession = null
+                    Log.d(TAG, "Server Disonnected")
+                }
+            }
         }
 
     }
