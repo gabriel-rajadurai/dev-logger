@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
+apply from: file('publish.gradle')
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -50,7 +52,7 @@ android {
 
 dependencies {
 
-    implementation deps.kotlin.stdlib.jdk
+    api deps.kotlin.stdlib.jdk
 
     coreLibraryDesugaring deps.desugarJdk
 

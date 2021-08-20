@@ -2,7 +2,7 @@
 buildscript {
 
     ext.versions = [
-            kotlin          : "1.4.21",
+            kotlin          : "1.5.10",
             desugarJdk      : "1.1.1",
             androidX        : "1.3.2",
             appcompat       : "1.2.0",
@@ -40,7 +40,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.2"
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -52,6 +52,14 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            name = "DevLogger"
+            url = uri("https://maven.pkg.github.com/gabriel-rajadurai/dev-logger")
+            credentials {
+                username = 'gabriel-rajadurai'
+                password = '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'
+            }
+        }
     }
 }
 

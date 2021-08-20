@@ -41,6 +41,7 @@ dependencies {
     implementation deps.androidX.constraintLayout
     implementation deps.material
     implementation project(path: ':devLogger')
+//    implementation "com.gabriel.devlogger:dev-logger:1.0.1"
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
