@@ -76,9 +76,16 @@ object DevLog {
 
     private fun logMessage(logLevel: LogLevel, tag: String, message: String) {
 
+        val logTag = if (tag.length > 23) {
+            Log.e(TAG, "Truncating Tag, length cannot be more than 23")
+            tag.take(23)
+        } else {
+            tag
+        }
+
         val logMessage = LogMessage(
             logLevel.level,
-            tag,
+            logTag,
             System.currentTimeMillis(),
             message
         )
