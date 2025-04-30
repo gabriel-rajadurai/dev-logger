@@ -1,2 +1,3 @@
+include ':devLogger'
 include ':app'
 rootProject.name = "Dev Logger"
