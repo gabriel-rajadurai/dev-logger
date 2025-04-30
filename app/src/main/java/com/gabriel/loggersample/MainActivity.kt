@@ -17,14 +17,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val id = "${Build.MANUFACTURER}-${Build.MODEL}"
-        DevLog.init(
-            id,
-            "$packageName(${Process.myPid()})",
-            "192.168.43.230",
-            8080,
-            "/log"
-        )
+
+        findViewById<Button>(R.id.btnConnect).setOnClickListener {
+            initializeDevLog()
+        }
 
         val etTag = findViewById<TextInputEditText>(R.id.etTag)
         etTag.setText(TAG)
@@ -37,6 +33,21 @@ class MainActivity : AppCompatActivity() {
             DevLog.w(tag, "Warning log")
             DevLog.i(tag, "Info log")
         }
+    }
+
+    private fun initializeDevLog() {
+        val etUrl = findViewById<TextInputEditText>(R.id.etUrl)
+        val hostUrl = etUrl.text.toString()
+        val id = "${Build.MANUFACTURER}-${Build.MODEL}"
+        DevLog.init(
+            id,
+            "$packageName(${Process.myPid()})",
+            hostUrl,
+            8080,
+            "/log"
+        )
+        findViewById<Button>(R.id.btnConnect).isEnabled = false
+        findViewById<Button>(R.id.btnLog).isEnabled = true
     }
 
     override fun onDestroy() {

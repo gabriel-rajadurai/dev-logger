@@ -1,12 +1,8 @@
 apply plugin: 'maven-publish'
-apply from: 'creds.gradle'
 
 def LIB_GROUP_ID = 'com.gabriel.devlogger'
 def LIB_ARTIFACT_ID = 'dev-logger'
 def LIB_VERSION = '1.0.1'
-
-def githubProperties = new Properties()
-githubProperties.load(new FileInputStream(rootProject.file("github.properties"))) //Set env variable GPR_USER & GPR_API_KEY if not adding a properties file
 
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -41,8 +37,8 @@ afterEvaluate {
                 name = "DevLogger"
                 url = uri("https://maven.pkg.github.com/gabriel-rajadurai/dev-logger")
                 credentials {
-                    username = USER_NAME
-                    password = TOKEN
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_PASSWORD")
                 }
             }
             maven {
